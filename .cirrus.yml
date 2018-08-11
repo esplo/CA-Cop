@@ -1,0 +1,54 @@
+container:
+  image: cirrusci/flutter:latest
+
+test_task:
+  pub_cache:
+    folder: ~/.pub-cache
+    fingerprint_script: cat pubspec.lock
+    populate_script: flutter packages get
+
+  test_script: flutter test
+
+android_deploy_task:
+  depends_on:
+    - test
+  only_if: $BRANCH == "master"
+
+  env:
+    PUBLISH_KEY_PASS_PATH: "/tmp/publish-key.jks"
+    PUBLISH_KEY_JKS_BASE64: ENCRYPTED[af7ca88a45aaf6df8433eca3a115b7926f43c3490ee7741c367bc3e19f4e738d9238de3778f27d8c11f1ec2344a39a1a]
+    KEYPASS: ENCRYPTED[d1fc937a750f39ef2a0c786b3a74267684feb706cfa4716d7a5ae2fa1fbef161d5bf418dec600f66678638322a1a7c49]
+    SERVICE_ACCOUNT_JSON: ENCRYPTED[3235d57e7733ef895f07b285daeaeb47b87cd58d16111060748411d27858d353c5822ac27a5095d3234b31266d0ed5f1]
+
+  pub_cache:
+    folder: ~/.pub-cache
+    fingerprint_script: cat pubspec.lock
+    populate_script: flutter packages get
+
+  vendor_cache:
+    folder: android/vendor/bundle
+    fingerprint_script: cat android/Gemfile.lock
+    populate_script: cd android/; bundle install --path vendor/bundle
+
+  # cache everything for simplicity
+  gradle_cache:
+    folder: ${HOME}/.gradle
+
+  create_local_properties_script:
+    - cd android/
+    - echo 'flutter.sdk=/home/cirrus/sdks/flutter' > local.properties
+  create_key_properties_script:
+    - cd android/
+    - echo ${PUBLISH_KEY_JKS_BASE64} | base64 --decode > ${PUBLISH_KEY_PASS_PATH}
+    - printf "storePassword=${KEYPASS}\nkeyPassword=${KEYPASS}\nkeyAlias=key\nstoreFile=${PUBLISH_KEY_PASS_PATH}" > key.properties
+    - echo ${SERVICE_ACCOUNT_JSON} > /tmp/service_account.json
+  set_version_script:
+    - cd android/
+    - U=$(expr $(date +%s) / 10) # increase by 1 in each 10 seconds
+    - echo "versionCode=${U}" >> version.properties
+  fastlane_install_script:
+    - cd android/
+    - mv _fastlane fastlane
+    - mkdir -p .bundle
+    - bundle install --path vendor/bundle
+    - bundle exec fastlane beta
