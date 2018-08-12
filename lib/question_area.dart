@@ -1,5 +1,6 @@
 import 'package:ca_cop/answer_buttons.dart';
 import 'package:ca_cop/question.dart';
+import 'package:ca_cop/timer_display.dart';
 import 'package:ca_cop/word_pair.dart';
 import 'package:flutter/material.dart';
 
@@ -19,11 +20,11 @@ class QuestionArea extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        Text('$remainingTime'),
+        TimerDisplay(remainingTime: remainingTime),
         Question(words: currentWordPair),
         AnswerButtons(
           nextQuestion: nextQuestion,
-        )
+        ),
       ],
     );
   }
