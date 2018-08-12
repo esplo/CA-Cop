@@ -20,7 +20,7 @@ void main() {
 
     // Verify that the session has started.
     expect(find.text('START'), findsNothing);
-    expect(find.text('score: '), findsOneWidget);
+    expect(find.text('SCORE: '), findsOneWidget);
     expect(find.text('0'), findsOneWidget);
     expect(find.text('30'), findsOneWidget); // TODO: timer
     expect(find.text('same'), findsOneWidget);
