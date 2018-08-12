@@ -18,14 +18,17 @@ class QuestionArea extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        TimerDisplay(remainingTime: remainingTime),
-        Question(words: currentWordPair),
-        AnswerButtons(
-          nextQuestion: nextQuestion,
-        ),
-      ],
+    return Expanded(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          TimerDisplay(remainingTime: remainingTime),
+          Question(words: currentWordPair),
+          AnswerButtons(
+            nextQuestion: nextQuestion,
+          ),
+        ],
+      ),
     );
   }
 }
