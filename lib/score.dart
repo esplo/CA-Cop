@@ -13,9 +13,25 @@ class Score extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text('score: '),
-        Text('${this.score}'),
+        Text('SCORE: '),
+        Text(
+          '${this.score}',
+          style: new TextStyle(
+            fontWeight: FontWeight.bold,
+            color: getColor(this.score),
+          ),
+        ),
       ],
     );
+  }
+
+  Color getColor(int score) {
+    if (score == 0) {
+      return Colors.black;
+    } else if (score > 0) {
+      return Colors.lightBlue;
+    } else {
+      return Colors.pinkAccent;
+    }
   }
 }
