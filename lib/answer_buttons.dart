@@ -18,6 +18,9 @@ class AnswerButtons extends StatelessWidget {
             child: Text('same'),
           ),
         ),
+        Container(
+          margin: const EdgeInsets.only(left: 4.0),
+        ),
         Expanded(
           child: RaisedButton(
             onPressed: () => nextQuestion(false),

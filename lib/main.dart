@@ -100,24 +100,30 @@ class _StringComparisonState extends State<StringComparison> {
         title: Text(widget.title),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Score(score: _score),
-            _running
-                ? QuestionArea(
-                    currentWordPair: widget.generator.current(),
-                    nextQuestion: _nextQuestion,
-                    remainingTime: _remainingTime,
-                  )
-                : Container(),
-            !_running
-                ? RaisedButton(
-                    onPressed: () => _startSession(),
-                    child: Text('START'),
-                  )
-                : Container(),
-          ],
+        child: Container(
+          margin: const EdgeInsets.all(4.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Container(
+                margin: const EdgeInsets.only(bottom: 8.0),
+                child: Score(score: _score),
+              ),
+              _running
+                  ? QuestionArea(
+                      currentWordPair: widget.generator.current(),
+                      nextQuestion: _nextQuestion,
+                      remainingTime: _remainingTime,
+                    )
+                  : Container(),
+              !_running
+                  ? RaisedButton(
+                      onPressed: () => _startSession(),
+                      child: Text('START'),
+                    )
+                  : Container(),
+            ],
+          ),
         ),
       ),
     );
