@@ -405,7 +405,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = net.esplo.cognitivePerformanceChecker;
+				PRODUCT_BUNDLE_IDENTIFIER = net.esplo.ca_cop;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
