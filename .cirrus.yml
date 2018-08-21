@@ -58,7 +58,7 @@ android_deploy_task:
 ios_deploy_task:
   depends_on:
     - test
-#  only_if: $BRANCH == "master"
+  only_if: $BRANCH == "master"
 
   osx_instance:
     image: high-sierra-xcode-9.4.1
