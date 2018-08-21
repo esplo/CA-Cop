@@ -4,7 +4,7 @@ import 'package:meta/meta.dart';
 import 'package:quiver/core.dart';
 
 class WordPair {
-  final word1, word2;
+  final String word1, word2;
 
   WordPair(this.word1, this.word2);
 
@@ -21,7 +21,7 @@ class WordPair {
 }
 
 class WordPairGenerator {
-  final minLength, maxLength, seed;
+  final int minLength, maxLength, seed;
   Iterable<WordPair> _cache = <WordPair>[];
 
   WordPairGenerator({
