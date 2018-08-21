@@ -82,11 +82,17 @@ class _StringComparisonState extends State<StringComparison> {
   }
 
   void _nextQuestion(bool isSame) {
+    final pair = widget.generator.current();
     setState(() {
-      if (isSame == widget.generator.current().isEqual()) {
-        _score++;
+      if (isSame == pair.isEqual()) {
+        // correct
+        if (isSame) {
+          _score += pair.word1.length;
+        } else {
+          _score += 4;
+        }
       } else {
-        _score -= 2;
+        _score -= 10;
       }
 
       widget.generator.next();
