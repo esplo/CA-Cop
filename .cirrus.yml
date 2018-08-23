@@ -21,6 +21,7 @@ android_deploy_task:
     PUBLISH_KEY_JKS_BASE64: ENCRYPTED[af7ca88a45aaf6df8433eca3a115b7926f43c3490ee7741c367bc3e19f4e738d9238de3778f27d8c11f1ec2344a39a1a]
     KEYPASS: ENCRYPTED[d1fc937a750f39ef2a0c786b3a74267684feb706cfa4716d7a5ae2fa1fbef161d5bf418dec600f66678638322a1a7c49]
     SERVICE_ACCOUNT_JSON: ENCRYPTED[3235d57e7733ef895f07b285daeaeb47b87cd58d16111060748411d27858d353c5822ac27a5095d3234b31266d0ed5f1]
+    GOOGLE_SERVICES_JSON: ENCRYPTED[aa6aaa6ce6fe9ce640e3d4b9b7cd46da38c4551617108e22d48e7bf44397766df2ce3906c5a47b138edc1492cc6524fd]
 
   pub_cache:
     folder: ~/.pub-cache
@@ -42,6 +43,9 @@ android_deploy_task:
     - echo ${PUBLISH_KEY_JKS_BASE64} | base64 --decode > ${PUBLISH_KEY_PASS_PATH}
     - printf "storePassword=${KEYPASS}\nkeyPassword=${KEYPASS}\nkeyAlias=key\nstoreFile=${PUBLISH_KEY_PASS_PATH}" > key.properties
     - echo ${SERVICE_ACCOUNT_JSON} > /tmp/service_account.json
+  create_google_services_json_script:
+    - cd android/app
+    - echo ${GOOGLE_SERVICES_JSON} | base64 --decode > google-services.json
   set_version_script:
     - cd android/
     - U=$(expr $(date +%s) / 10) # increase by 1 in each 10 seconds
@@ -72,6 +76,7 @@ ios_deploy_task:
     TEAM_ID: ENCRYPTED[6bbac9dbc4c50e8d47d8bd41284316f0c2b2e92abc7df107ab5675e63eb790923e3c35cc65cea7f6793edeb00b046a51]
     KNOWN_HOSTS: ENCRYPTED[f8b02e97c8098476d741fd45756b30d532f0665efa97a6b90149925840256846af32dc62b1fc46bf2c7cb878c07daf43]
     MATCH_PASSWORD: ENCRYPTED[d1fc937a750f39ef2a0c786b3a74267684feb706cfa4716d7a5ae2fa1fbef161d5bf418dec600f66678638322a1a7c49]
+    GOOGLE_SERVICES_PLIST: ENCRYPTED[2f73942b9560f7598f7f96f1f78965f31052b58ab8846862b37c2bfd683db801496adae4e36d1ce81ad9fec7c5a7c490]
     LC_ALL: en_US.UTF-8
     LANG: en_US.UTF-8
     FLUTTER_SDK_URL: "https://storage.googleapis.com/flutter_infra/releases/beta/macos/flutter_macos_v0.5.1-beta.zip"
@@ -114,6 +119,9 @@ ios_deploy_task:
     - cd ios/
     - bundle install --path vendor/bundle
     - bundle exec fastlane match appstore --readonly
+  create_google_services_plist_script:
+    - cd ios/Runner
+    - echo ${GOOGLE_SERVICES_PLIST} | base64 --decode > GoogleService-Info.plist
   deploy_script:
     - export CFBundleVersion=`date +%s` # for build code
     - export CFBundleShortVersionString=`cat ./version.txt` # for version string

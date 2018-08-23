@@ -48,3 +48,4 @@ fastlane/
 .bundle/
 vendor/
 Runner.xcodeproj/project.pbxproj
+Runner/GoogleService-Info.plist
