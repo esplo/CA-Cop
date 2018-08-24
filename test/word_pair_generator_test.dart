@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:ca_cop/word_pair.dart';
+import 'package:ca_cop/main/word_pair.dart';
 import 'package:test/test.dart';
 
 void main() {

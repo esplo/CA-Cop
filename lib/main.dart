@@ -1,14 +1,11 @@
 import 'dart:async';
-import 'dart:io';
 
-import 'package:ca_cop/question_area.dart';
-import 'package:ca_cop/score.dart';
+import 'package:ca_cop/main/question_area.dart';
+import 'package:ca_cop/main/score.dart';
+import 'package:ca_cop/main/word_pair.dart';
+import 'package:ca_cop/remote_score_manager.dart';
 import 'package:ca_cop/scoreHistory/score_history.dart';
-import 'package:ca_cop/word_pair.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:device_info/device_info.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 void main() => runApp(MyApp());
 
@@ -47,8 +44,7 @@ class StringComparison extends StatefulWidget {
 class _StringComparisonState extends State<StringComparison> {
   final int _defaultTimeLimit = 30;
 
-  static final DeviceInfoPlugin deviceInfoPlugin = new DeviceInfoPlugin();
-  String _deviceID;
+  RemoteScoreManager _remoteScoreManager;
 
   bool _running;
   int _score;
@@ -60,36 +56,11 @@ class _StringComparisonState extends State<StringComparison> {
     super.initState();
     _score = 0;
     _running = false;
-
-    _initPlatformState();
+    _init();
   }
 
-  Future<Null> _initPlatformState() async {
-    String id;
-
-    try {
-      if (Platform.isAndroid) {
-        id = _readAndroidBuildData(await deviceInfoPlugin.androidInfo);
-      } else if (Platform.isIOS) {
-        id = _readIosDeviceInfo(await deviceInfoPlugin.iosInfo);
-      }
-    } on PlatformException {
-      id = 'Failed to get platform version.';
-    }
-
-    if (!mounted) return;
-
-    setState(() {
-      _deviceID = id;
-    });
-  }
-
-  String _readAndroidBuildData(AndroidDeviceInfo build) {
-    return build.id;
-  }
-
-  String _readIosDeviceInfo(IosDeviceInfo data) {
-    return data.identifierForVendor;
+  void _init() async {
+    _remoteScoreManager = await RemoteScoreManager.instance();
   }
 
   @override
@@ -124,11 +95,7 @@ class _StringComparisonState extends State<StringComparison> {
       _running = false;
     });
 
-    Firestore.instance.collection('result').add({
-      'deviceID': _deviceID,
-      'timestamp': DateTime.now(),
-      'score': _score,
-    });
+    _remoteScoreManager.add(_score);
   }
 
   void _nextQuestion(bool isSame) {
@@ -149,7 +116,9 @@ class _StringComparisonState extends State<StringComparison> {
   void _openHistory() {
     Navigator.push(context, new MaterialPageRoute<void>(
       builder: (BuildContext context) {
-        return ScoreHistory(deviceID: _deviceID);
+        return ScoreHistory(
+          remoteScoreManager: _remoteScoreManager,
+        );
       },
     ));
   }

@@ -1,14 +1,14 @@
+import 'package:ca_cop/remote_score_manager.dart';
 import 'package:ca_cop/scoreHistory/score_data.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class ScoreHistory extends StatefulWidget {
-  ScoreHistory({Key key, @required this.deviceID})
+  ScoreHistory({Key key, @required this.remoteScoreManager})
       : title = 'Score History',
         super(key: key);
 
   final String title;
-  final String deviceID;
+  final RemoteScoreManager remoteScoreManager;
 
   @override
   _ScoreHistoryState createState() => _ScoreHistoryState();
@@ -20,21 +20,16 @@ class _ScoreHistoryState extends State<ScoreHistory> {
   @override
   void initState() {
     super.initState();
-    _fetchHistory();
+    widget.remoteScoreManager.fetchHistory(setDataFromRemote);
   }
 
-  void _fetchHistory() {
-    Firestore.instance
-        .collection('result')
-        .where("deviceID", isEqualTo: widget.deviceID)
-        .orderBy("timestamp", descending: true)
-        .getDocuments()
-        .then((data) => setState(() {
-              _scoreHistory = data.documents
-                  .map<ScoreData>((sp) =>
-                      ScoreData(sp.data['score'].toInt(), sp.data['timestamp']))
-                  .toList();
-            }));
+  void setDataFromRemote(data) {
+    setState(() {
+      _scoreHistory = data.documents
+          .map<ScoreData>(
+              (sp) => ScoreData(sp.data['score'].toInt(), sp.data['timestamp']))
+          .toList();
+    });
   }
 
   @override
@@ -43,7 +38,10 @@ class _ScoreHistoryState extends State<ScoreHistory> {
       appBar: AppBar(
         title: Text(widget.title),
         actions: <Widget>[
-          IconButton(icon: Icon(Icons.sync), onPressed: _fetchHistory)
+          IconButton(
+              icon: Icon(Icons.sync),
+              onPressed: () =>
+                  widget.remoteScoreManager.fetchHistory(setDataFromRemote))
         ],
       ),
       body: ListView(
