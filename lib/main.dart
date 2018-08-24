@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
 }
 
 class StringComparison extends StatefulWidget {
-  StringComparison({Key key, this.title, int seed})
+  StringComparison({Key key, @required this.title, @required int seed})
       : generator = WordPairGenerator(seed: seed),
         super(key: key);
 
