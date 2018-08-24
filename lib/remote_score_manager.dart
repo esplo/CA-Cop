@@ -8,7 +8,9 @@ import 'package:flutter/services.dart';
 typedef void FetchHistoryCallback(QuerySnapshot data);
 
 class RemoteScoreManager {
-  final String _resultCollectionName = 'results';
+  final String _userCollectionName = 'users';
+  final String _resultCollectionName = 'sc-results';
+  final String _scoreVersion = '0.0.1';
 
   static final DeviceInfoPlugin deviceInfoPlugin = new DeviceInfoPlugin();
   String deviceID;
@@ -41,16 +43,21 @@ class RemoteScoreManager {
 
   void fetchHistory(FetchHistoryCallback callback) {
     Firestore.instance
+        .collection(_userCollectionName)
+        .document(deviceID)
         .collection(_resultCollectionName)
-        .where("deviceID", isEqualTo: deviceID)
         .orderBy("timestamp", descending: true)
         .getDocuments()
         .then((data) => callback(data));
   }
 
   void add(int score) {
-    Firestore.instance.collection(_resultCollectionName).add({
-      'deviceID': deviceID,
+    Firestore.instance
+        .collection(_userCollectionName)
+        .document(deviceID)
+        .collection(_resultCollectionName)
+        .add({
+      'scoreVersion': _scoreVersion,
       'timestamp': DateTime.now(),
       'score': score,
     });
