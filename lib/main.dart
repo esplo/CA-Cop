@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:ca_cop/question_area.dart';
 import 'package:ca_cop/score.dart';
-import 'package:ca_cop/score_history.dart';
+import 'package:ca_cop/scoreHistory/score_history.dart';
 import 'package:ca_cop/word_pair.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:device_info/device_info.dart';
@@ -55,8 +55,6 @@ class _StringComparisonState extends State<StringComparison> {
   int _remainingTime;
   Timer _timer;
 
-  List<ScoreData> _scoreHistory = [];
-
   @override
   void initState() {
     super.initState();
@@ -64,20 +62,6 @@ class _StringComparisonState extends State<StringComparison> {
     _running = false;
 
     _initPlatformState();
-  }
-
-  void _fetchHistory(String deviceID) {
-    Firestore.instance
-        .collection('result')
-        .where("deviceID", isEqualTo: deviceID)
-        .orderBy("timestamp", descending: true)
-        .getDocuments()
-        .then((data) => setState(() {
-              _scoreHistory = data.documents
-                  .map<ScoreData>((sp) =>
-                      ScoreData(sp.data['score'].toInt(), sp.data['timestamp']))
-                  .toList();
-            }));
   }
 
   Future<Null> _initPlatformState() async {
@@ -98,8 +82,6 @@ class _StringComparisonState extends State<StringComparison> {
     setState(() {
       _deviceID = id;
     });
-
-    _fetchHistory(id); // TODO:
   }
 
   String _readAndroidBuildData(AndroidDeviceInfo build) {
@@ -117,7 +99,6 @@ class _StringComparisonState extends State<StringComparison> {
   }
 
   void _startSession() {
-    _fetchHistory(_deviceID); // TODO:
     setState(() {
       _score = 0;
       _remainingTime = _defaultTimeLimit;
@@ -165,11 +146,25 @@ class _StringComparisonState extends State<StringComparison> {
     });
   }
 
+  void _openHistory() {
+    Navigator.push(context, new MaterialPageRoute<void>(
+      builder: (BuildContext context) {
+        return ScoreHistory(deviceID: _deviceID);
+      },
+    ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.history),
+            onPressed: _openHistory,
+          ),
+        ],
       ),
       body: Center(
         child: Container(
@@ -194,7 +189,6 @@ class _StringComparisonState extends State<StringComparison> {
                       child: Text('START'),
                     )
                   : Container(),
-              !_running ? History(scoreHistory: _scoreHistory) : Container(),
             ],
           ),
         ),
