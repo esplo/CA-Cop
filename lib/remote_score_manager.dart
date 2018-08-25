@@ -57,7 +57,7 @@ class RemoteScoreManager {
         .document(deviceID)
         .collection(_resultCollectionName)
         .add({
-      'scoreVersion': _scoreVersion,
+      'version': _scoreVersion,
       'timestamp': DateTime.now(),
       'score': score,
     });

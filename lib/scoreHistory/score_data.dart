@@ -1,9 +1,10 @@
 class ScoreData {
+  final String version;
   final int score;
   final DateTime timestamp;
 
-  ScoreData(this.score, this.timestamp);
+  ScoreData(this.version, this.score, this.timestamp);
 
   @override
-  String toString() => '($timestamp, $score)';
+  String toString() => '($score, $timestamp, v$version)';
 }

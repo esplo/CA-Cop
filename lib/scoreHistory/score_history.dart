@@ -26,8 +26,11 @@ class _ScoreHistoryState extends State<ScoreHistory> {
   void setDataFromRemote(data) {
     setState(() {
       _scoreHistory = data.documents
-          .map<ScoreData>(
-              (sp) => ScoreData(sp.data['score'].toInt(), sp.data['timestamp']))
+          .map<ScoreData>((sp) => ScoreData(
+                sp.data['version'],
+                sp.data['score'].toInt(),
+                sp.data['timestamp'],
+              ))
           .toList();
     });
   }
