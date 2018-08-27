@@ -1,4 +1,5 @@
 import 'package:ca_cop/remote_score_manager.dart';
+import 'package:ca_cop/scoreHistory/score_chart.dart';
 import 'package:ca_cop/scoreHistory/score_data.dart';
 import 'package:flutter/material.dart';
 
@@ -47,13 +48,11 @@ class _ScoreHistoryState extends State<ScoreHistory> {
                   widget.remoteScoreManager.fetchHistory(setDataFromRemote))
         ],
       ),
-      body: ListView(
-        children: _scoreHistory
-            .map((e) => ListTile(
-                  title: Text(e.toString()),
-                ))
-            .toList(),
-      ),
+      body: _scoreHistory.isEmpty
+          ? Center(
+              child: Text('loading... or no data'),
+            )
+          : ScoreChart.withData(_scoreHistory),
     );
   }
 }
