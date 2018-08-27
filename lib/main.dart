@@ -7,7 +7,11 @@ import 'package:ca_cop/remote_score_manager.dart';
 import 'package:ca_cop/scoreHistory/score_history.dart';
 import 'package:flutter/material.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  MaterialPageRoute.debugEnableFadingRoutes =
+      true; // ignore: deprecated_member_use
+  return runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   final int _seed;
