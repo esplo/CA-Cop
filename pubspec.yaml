@@ -10,8 +10,9 @@ dependencies:
   cupertino_icons: ^0.1.2
   quiver: '>=0.22.0 <3.0.0'
   cloud_firestore:
-  device_info: ^0.2.1
   charts_flutter: ^0.4.0
+  google_sign_in: ^3.0.5
+  firebase_auth: ^0.5.19
 
 dev_dependencies:
   flutter_test:

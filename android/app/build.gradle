@@ -31,8 +31,9 @@ android {
 
     defaultConfig {
         applicationId "net.esplo.ca_cop"
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 27
+//        multiDexEnabled true
         versionCode versionProperties['versionCode'].toInteger()
         versionName versionProperties['versionName']
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
