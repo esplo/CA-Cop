@@ -11,7 +11,6 @@ dependencies:
   quiver: '>=0.22.0 <3.0.0'
   cloud_firestore:
   charts_flutter: ^0.4.0
-  google_sign_in: ^3.0.5
   firebase_auth: ^0.5.19
 
 dev_dependencies:
