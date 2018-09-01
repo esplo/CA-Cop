@@ -8,10 +8,10 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
-  quiver: '>=0.22.0 <3.0.0'
+  quiver:
   cloud_firestore:
-  charts_flutter: ^0.4.0
-  firebase_auth: ^0.5.19
+  charts_flutter:
+  firebase_auth:
 
 dev_dependencies:
   flutter_test:

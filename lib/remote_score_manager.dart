@@ -30,7 +30,19 @@ class RemoteScoreManager {
         .collection(_resultCollectionName)
         .orderBy("timestamp", descending: true)
         .getDocuments()
-        .then((data) => callback(data));
+        .then((QuerySnapshot data) => callback(data));
+  }
+
+  void fetchTodaysHistory(FetchHistoryCallback callback) {
+    Firestore.instance
+        .collection(_userCollectionName)
+        .document(uid)
+        .collection(_resultCollectionName)
+        .where('timestamp',
+            isGreaterThan: DateTime.now().subtract(new Duration(days: 1)))
+        .orderBy("timestamp", descending: true)
+        .getDocuments()
+        .then((QuerySnapshot data) => callback(data));
   }
 
   void add(int score) {
