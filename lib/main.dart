@@ -1,4 +1,4 @@
-import 'package:ca_cop/string_comparison.dart';
+import 'package:ca_cop/measurement_list.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -19,8 +19,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: StringComparison(
-        title: 'String Comparison Task',
+      home: MeasurementList(
+        title: 'Measurement Methods',
         seed: _seed,
       ),
     );
