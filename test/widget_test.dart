@@ -8,6 +8,11 @@ void main() {
       seed: 3,
     ));
 
+    expect(find.text('START'), findsNWidgets(2));
+
+    await tester.tap(find.text('START').first);
+    await tester.pumpAndSettle();
+
     // Verify that our score starts at 0.
     expect(find.text('0'), findsOneWidget);
     expect(find.text('1'), findsNothing);
