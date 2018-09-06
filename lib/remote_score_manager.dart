@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:ca_cop/main/answer_history.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -8,7 +9,8 @@ typedef void FetchHistoryCallback(QuerySnapshot data);
 class RemoteScoreManager {
   final String _userCollectionName = 'users';
   final String _resultCollectionName = 'sc-results';
-  final String _scoreVersion = '0.0.1';
+  final String _resultDetailCollectionName = 'sc-results-detail';
+  final String _scoreVersion = '0.0.2';
 
   String uid;
 
@@ -45,8 +47,8 @@ class RemoteScoreManager {
         .then((QuerySnapshot data) => callback(data));
   }
 
-  void add(int score) {
-    Firestore.instance
+  void add(int score, List<AnswerHistory> answers) async {
+    DocumentReference ref = await Firestore.instance
         .collection(_userCollectionName)
         .document(uid)
         .collection(_resultCollectionName)
@@ -55,5 +57,19 @@ class RemoteScoreManager {
       'timestamp': DateTime.now(),
       'score': score,
     });
+
+    final CollectionReference r = Firestore.instance
+        .collection(_userCollectionName)
+        .document(uid)
+        .collection(_resultDetailCollectionName);
+
+    for (AnswerHistory ans in answers) {
+      r.add({
+        'session': ref,
+        'duration': ans.time.toString(),
+        'isSame': ans.isSame,
+        'gained': ans.score,
+      });
+    }
   }
 }

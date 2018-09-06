@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:ca_cop/main/answer_history.dart';
 import 'package:ca_cop/main/question_area.dart';
 import 'package:ca_cop/main/score.dart';
 import 'package:ca_cop/main/word_pair.dart';
@@ -28,6 +29,8 @@ class _StringComparisonState extends State<StringComparison> {
   int _score;
   int _remainingTime;
   Timer _timer;
+  DateTime _beginningTime;
+  List<AnswerHistory> _answerHistory;
 
   @override
   void initState() {
@@ -54,6 +57,8 @@ class _StringComparisonState extends State<StringComparison> {
       _running = true;
       _timer =
           Timer.periodic(Duration(seconds: 1), (timer) => this._countdown());
+      _beginningTime = DateTime.now();
+      _answerHistory = [];
     });
   }
 
@@ -73,20 +78,30 @@ class _StringComparisonState extends State<StringComparison> {
       _running = false;
     });
 
-    _remoteScoreManager.add(_score);
+    _remoteScoreManager.add(_score, _answerHistory);
   }
 
   void _nextQuestion(bool isSame) {
     final pair = widget.generator.current();
-    setState(() {
-      if (isSame == pair.isEqual()) {
-        // correct
-        _score += isSame ? pair.word1.length : 4;
-      } else {
-        // wrong
-        _score -= 10;
-      }
 
+    var gainedScore = 0;
+    if (isSame == pair.isEqual()) {
+      // correct
+      gainedScore = isSame ? pair.word1.length : 5;
+    } else {
+      // wrong
+      gainedScore = -10;
+    }
+
+    // record history
+    _answerHistory.add(AnswerHistory(
+      DateTime.now().difference(_beginningTime),
+      pair.isEqual(),
+      gainedScore,
+    ));
+
+    setState(() {
+      _score += gainedScore;
       widget.generator.next();
     });
   }
