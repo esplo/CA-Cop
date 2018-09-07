@@ -9,7 +9,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
   quiver:
-  cloud_firestore:
+  cloud_firestore: 0.7.4
   charts_flutter:
   firebase_auth:
 
