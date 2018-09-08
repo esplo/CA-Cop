@@ -1,6 +1,6 @@
-import 'package:ca_cop/remote_score_manager.dart';
 import 'package:ca_cop/scoreHistory/score_chart.dart';
 import 'package:ca_cop/scoreHistory/score_data.dart';
+import 'package:ca_cop/stringComparison/remote_score_manager.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 

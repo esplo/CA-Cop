@@ -1,4 +1,4 @@
-import 'package:ca_cop/main/word_pair.dart';
+import 'package:ca_cop/stringComparison/word_pair.dart';
 import 'package:flutter/material.dart';
 
 class Question extends StatelessWidget {

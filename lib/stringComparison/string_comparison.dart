@@ -1,11 +1,11 @@
 import 'dart:async';
 
-import 'package:ca_cop/main/answer_history.dart';
-import 'package:ca_cop/main/question_area.dart';
-import 'package:ca_cop/main/score.dart';
-import 'package:ca_cop/main/word_pair.dart';
-import 'package:ca_cop/remote_score_manager.dart';
 import 'package:ca_cop/scoreHistory/score_history.dart';
+import 'package:ca_cop/stringComparison/answer_history.dart';
+import 'package:ca_cop/stringComparison/question_area.dart';
+import 'package:ca_cop/stringComparison/remote_score_manager.dart';
+import 'package:ca_cop/stringComparison/score.dart';
+import 'package:ca_cop/stringComparison/word_pair.dart';
 import 'package:flutter/material.dart';
 
 class StringComparison extends StatefulWidget {

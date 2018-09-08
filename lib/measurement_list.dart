@@ -1,5 +1,5 @@
 import 'package:ca_cop/measurement_card.dart';
-import 'package:ca_cop/string_comparison.dart';
+import 'package:ca_cop/stringComparison/string_comparison.dart';
 import 'package:flutter/material.dart';
 
 class MeasurementList extends StatelessWidget {

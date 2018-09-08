@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:ca_cop/main/answer_history.dart';
+import 'package:ca_cop/stringComparison/answer_history.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
