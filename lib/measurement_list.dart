@@ -1,3 +1,4 @@
+import 'package:ca_cop/iconRecollection/icon_recollection.dart';
 import 'package:ca_cop/measurement_card.dart';
 import 'package:ca_cop/stringComparison/string_comparison.dart';
 import 'package:flutter/material.dart';
@@ -37,8 +38,8 @@ class MeasurementList extends StatelessWidget {
                 seed: seed,
                 title: 'Icon recollection',
                 subtitle: 'under construction...',
-                builder: (BuildContext context) => StringComparison(
-                      title: 'String Comparison',
+                builder: (BuildContext context) => IconRecollection(
+                      title: 'Icon Recollection',
                       seed: seed,
                     ),
               )

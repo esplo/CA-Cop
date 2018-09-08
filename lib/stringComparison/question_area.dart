@@ -1,7 +1,7 @@
 import 'package:ca_cop/stringComparison/answer_buttons.dart';
 import 'package:ca_cop/stringComparison/question.dart';
-import 'package:ca_cop/stringComparison/timer_display.dart';
 import 'package:ca_cop/stringComparison/word_pair.dart';
+import 'package:ca_cop/ui/timer_display.dart';
 import 'package:flutter/material.dart';
 
 class QuestionArea extends StatelessWidget {
