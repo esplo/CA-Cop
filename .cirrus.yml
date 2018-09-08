@@ -88,6 +88,7 @@ ios_deploy_task:
   # no fingerprint_script
   flutter_sdk_cache:
     folder: ${FLUTTER_SDK_PATH}
+    fingerprint_script: echo ${FLUTTER_SDK_URL}
     populate_script:
       - curl -o /tmp/flutter-sdk.zip ${FLUTTER_SDK_URL}
       - unzip -qq /tmp/flutter-sdk.zip -d /tmp/
