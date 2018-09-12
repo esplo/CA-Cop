@@ -37,6 +37,7 @@ class _StringComparisonState extends State<StringComparison> {
     super.initState();
     _score = 0;
     _running = false;
+    _answerHistory = [];
     _init();
   }
 

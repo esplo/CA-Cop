@@ -13,9 +13,8 @@ void main() {
     await tester.tap(find.text('START').first);
     await tester.pumpAndSettle();
 
-    // Verify that our score starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    // Verify that there's no score
+    expect(find.text('0'), findsNothing);
     expect(find.text('START'), findsOneWidget);
     expect(find.text('FWDS'), findsNothing);
 
@@ -23,10 +22,12 @@ void main() {
     await tester.tap(find.text('START'));
     await tester.pump();
 
+    // TODO: score test
+
     // Verify that the session has started.
     expect(find.text('START'), findsNothing);
-    expect(find.text('SCORE: '), findsOneWidget);
-    expect(find.text('0'), findsOneWidget);
+//    expect(find.text('SCORE: '), findsOneWidget);
+//    expect(find.text('0'), findsOneWidget);
     expect(find.text('30'), findsOneWidget); // TODO: timer
     expect(find.text('same'), findsOneWidget);
     expect(find.text('different'), findsOneWidget);
@@ -38,7 +39,7 @@ void main() {
 
     // correct answer, score increase by 4
     expect(find.text('START'), findsNothing);
-    expect(find.text('4'), findsOneWidget);
+//    expect(find.text('4'), findsOneWidget);
     expect(find.text('ZIH'), findsOneWidget);
     expect(find.text('ZFH'), findsOneWidget);
 
@@ -47,7 +48,7 @@ void main() {
     await tester.pump();
 
     // correct answer, score increase by 5
-    expect(find.text('9'), findsOneWidget);
+//    expect(find.text('9'), findsOneWidget);
     expect(find.text('DKSK'), findsOneWidget);
     expect(find.text('DSSK'), findsOneWidget);
 
@@ -57,6 +58,6 @@ void main() {
 
     // wrong answer, score decrease by 10
     expect(find.text('SUJIZAVY'), findsNWidgets(2));
-    expect(find.text('-1'), findsOneWidget);
+//    expect(find.text('-1'), findsOneWidget);
   });
 }
