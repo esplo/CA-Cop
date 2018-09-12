@@ -4,13 +4,15 @@ import 'package:flutter/material.dart';
 void main() {
   MaterialPageRoute.debugEnableFadingRoutes =
       true; // ignore: deprecated_member_use
-  return runApp(MyApp());
+  return runApp(MyApp(
+    seed: null,
+  ));
 }
 
 class MyApp extends StatelessWidget {
-  final int _seed;
+  final int seed;
 
-  MyApp({int seed}) : _seed = seed ?? DateTime.now().millisecondsSinceEpoch;
+  MyApp({@required this.seed});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +23,7 @@ class MyApp extends StatelessWidget {
       ),
       home: MeasurementList(
         title: 'Measurement Methods',
-        seed: _seed,
+        seed: seed,
       ),
     );
   }

@@ -21,14 +21,14 @@ class WordPair {
 }
 
 class WordPairGenerator {
-  final int minLength, maxLength, seed;
+  final int minLength, maxLength, _seed;
   Iterable<WordPair> _cache = <WordPair>[];
 
   WordPairGenerator({
     this.minLength = 3,
     this.maxLength = 8,
-    @required this.seed,
-  }) {
+    @required seed,
+  }) : _seed = seed ?? DateTime.now().millisecondsSinceEpoch {
     next();
   }
 
@@ -38,7 +38,7 @@ class WordPairGenerator {
 
   void next() {
     if (_cache.isNotEmpty) _cache = _cache.skip(1);
-    if (_cache.isEmpty) _cache = this.generate(this.seed, 20);
+    if (_cache.isEmpty) _cache = this.generate(this._seed, 20);
   }
 
   List<WordPair> generate(int seed, int count) {
