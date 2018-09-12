@@ -67,8 +67,10 @@ class RemoteScoreManager {
       r.add({
         'session': ref,
         'duration': ans.time.toString(),
-        'isSame': ans.isSame,
+        'yourAnswer': ans.isSame,
         'gained': ans.score,
+        'word1': ans.word1,
+        'word2': ans.word2,
       });
     }
   }

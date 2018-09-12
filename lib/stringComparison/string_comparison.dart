@@ -96,8 +96,10 @@ class _StringComparisonState extends State<StringComparison> {
     // record history
     _answerHistory.add(AnswerHistory(
       DateTime.now().difference(_beginningTime),
-      pair.isEqual(),
+      isSame,
       gainedScore,
+      pair.word1,
+      pair.word2,
     ));
 
     setState(() {
@@ -118,6 +120,30 @@ class _StringComparisonState extends State<StringComparison> {
 
   @override
   Widget build(BuildContext context) {
+    var contents = <Widget>[
+      _running
+          ? QuestionArea(
+              currentWordPair: widget.generator.current(),
+              nextQuestion: _nextQuestion,
+              remainingTime: _remainingTime,
+            )
+          : RaisedButton(
+              onPressed: () => _startSession(),
+              child: Text('START'),
+            ),
+    ];
+
+    if (!_running && _answerHistory.isNotEmpty) {
+      contents.addAll([
+        Score(score: _score),
+        Expanded(
+          child: ListView(
+            children: _answerHistory.map((ah) => Text(ah.pretty())).toList(),
+          ),
+        ),
+      ]);
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -128,32 +154,8 @@ class _StringComparisonState extends State<StringComparison> {
           ),
         ],
       ),
-      body: Center(
-        child: Container(
-          margin: const EdgeInsets.all(4.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Container(
-                margin: const EdgeInsets.only(bottom: 8.0),
-                child: Score(score: _score),
-              ),
-              _running
-                  ? QuestionArea(
-                      currentWordPair: widget.generator.current(),
-                      nextQuestion: _nextQuestion,
-                      remainingTime: _remainingTime,
-                    )
-                  : Container(),
-              !_running
-                  ? RaisedButton(
-                      onPressed: () => _startSession(),
-                      child: Text('START'),
-                    )
-                  : Container(),
-            ],
-          ),
-        ),
+      body: Column(
+        children: contents,
       ),
     );
   }
