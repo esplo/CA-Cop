@@ -155,8 +155,11 @@ class _StringComparisonState extends State<StringComparison> {
           ),
         ],
       ),
-      body: Column(
-        children: contents,
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: contents,
+        ),
       ),
     );
   }
