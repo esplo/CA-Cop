@@ -6,22 +6,22 @@ import 'package:flutter/material.dart';
 
 class IconRecollection extends StatefulWidget {
   final String title;
-  final int seed;
 
   final Random rng;
 
   IconRecollection({
     Key key,
     @required this.title,
-    @required this.seed,
-  })  : rng = new Random(seed),
+    @required seed,
+  })  : rng = new Random(seed ?? DateTime.now().millisecondsSinceEpoch),
         super(key: key);
 
   @override
   _IconRecollectionState createState() => _IconRecollectionState();
 
-  final int GRID_COUNT = 25;
-  final int ICON_COUNT = 10;
+  final int GRID_ROW = 5;
+  final int GRID_COLUMN = 5;
+  final int ICON_COUNT = 15;
   final List<IconData> iconData = const [
     Icons.add,
     Icons.access_time,
@@ -60,20 +60,38 @@ class _IconRecollectionState extends State<IconRecollection> {
 
   void _startSession() {
     setState(() {
-      icons =
-          makeIconsWithPadding(widget.GRID_COUNT, pickIcons(widget.ICON_COUNT));
+      icons = makeIconsWithPadding(
+          widget.GRID_ROW, widget.GRID_COLUMN, pickIcons(widget.ICON_COUNT));
     });
   }
 
-  List<IconData> makeIconsWithPadding(int n, List<IconData> icons) {
-    assert(n >= icons.length);
-    final int origLen = icons.length;
-    for (var i = 0; i < n - origLen; i++) {
-      icons.add(null);
-    }
-    icons.shuffle(widget.rng);
+  List<IconData> makeIconsWithPadding(int n, int m, List<IconData> icons) {
+    assert(n * m >= icons.length);
+    assert(n + m <= icons.length);
+    assert(n > 1); // to avoid an infinite loop in the balanced-placement
+    assert(m > 1);
 
-    return icons;
+    final List<IconData> res = List.filled(n * m, null);
+
+    // well balanced
+    // horizontal
+    for (var i = 0; i < m; i++) {
+      final int u = widget.rng.nextInt(n);
+      res[u * m + i] = icons[i];
+    }
+
+    // vertical
+    for (var i = 0; i < n; i++) {
+      final int u = widget.rng.nextInt(m);
+      final int t = u + n * i;
+      if (res[t] != null) {
+        i--;
+        continue;
+      }
+      res[t] = icons[m + i];
+    }
+
+    return res;
   }
 
   List<IconData> pickIcons(int n) {
@@ -94,7 +112,7 @@ class _IconRecollectionState extends State<IconRecollection> {
             TimerDisplay(
               remainingTime: 10,
             ),
-            IconGrid(iconData: icons),
+            IconGrid(column: widget.GRID_COLUMN, iconData: icons),
           ],
         ),
       ),
