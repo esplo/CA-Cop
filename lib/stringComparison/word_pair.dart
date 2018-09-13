@@ -21,14 +21,15 @@ class WordPair {
 }
 
 class WordPairGenerator {
-  final int minLength, maxLength, _seed;
+  final int minLength, maxLength;
+  final Random _rng;
   Iterable<WordPair> _cache = <WordPair>[];
 
   WordPairGenerator({
     this.minLength = 3,
     this.maxLength = 8,
     @required seed,
-  }) : _seed = seed ?? DateTime.now().millisecondsSinceEpoch {
+  }) : _rng = new Random(seed ?? DateTime.now().millisecondsSinceEpoch) {
     next();
   }
 
@@ -38,11 +39,10 @@ class WordPairGenerator {
 
   void next() {
     if (_cache.isNotEmpty) _cache = _cache.skip(1);
-    if (_cache.isEmpty) _cache = this.generate(this._seed, 20);
+    if (_cache.isEmpty) _cache = this.generate(_rng, 20);
   }
 
-  List<WordPair> generate(int seed, int count) {
-    final rng = new Random(seed);
+  List<WordPair> generate(Random rng, int count) {
     return List<WordPair>.generate(
         count, (i) => makePair(rng, minLength, maxLength)).toList();
   }

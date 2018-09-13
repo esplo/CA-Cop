@@ -60,6 +60,8 @@ class _StringComparisonState extends State<StringComparison> {
           Timer.periodic(Duration(seconds: 1), (timer) => this._countdown());
       _beginningTime = DateTime.now();
       _answerHistory = [];
+
+      widget.generator.next();
     });
   }
 

@@ -14,8 +14,9 @@ void main() {
   });
 
   test('generate', () {
+    final rng = new Random(11);
     expect(
-        wpg.generate(11, 3),
+        wpg.generate(rng, 3),
         equals([
           WordPair('JLYCH', 'JGYCH'),
           WordPair('YUITJG', 'YUOTJG'),
