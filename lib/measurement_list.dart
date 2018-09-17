@@ -37,7 +37,7 @@ class MeasurementList extends StatelessWidget {
               MeasurementCard(
                 seed: seed,
                 title: 'Icon recollection',
-                subtitle: 'under construction...',
+                subtitle: 'beta',
                 builder: (BuildContext context) => IconRecollection(
                       title: 'Icon Recollection',
                       seed: seed,
