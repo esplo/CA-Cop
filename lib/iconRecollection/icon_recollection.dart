@@ -21,9 +21,9 @@ class IconRecollection extends StatefulWidget {
   @override
   _IconRecollectionState createState() => _IconRecollectionState();
 
-  final int GRID_ROW = 5;
-  final int GRID_COLUMN = 5;
-  final int ICON_COUNT = 15;
+  final int GRID_ROW = 3;
+  final int GRID_COLUMN = 3;
+  final int ICON_COUNT = 7;
   final List<IconData> iconData = const [
     Icons.add,
     Icons.access_time,
@@ -249,6 +249,28 @@ class _IconRecollectionState extends State<IconRecollection> {
     } else if (_memorying) {
       content = memoryContents;
     } else {
+      List<Widget> rowButtons = [];
+      for (var i = 0; i < widget.GRID_ROW; i++) {
+        rowButtons.addAll([
+          Radio<int>(
+              value: i,
+              groupValue: _answerRow,
+              onChanged: _handleRowAnswerValueChanged),
+          Text(String.fromCharCode('A'.codeUnitAt(0) + i)),
+        ]);
+      }
+
+      List<Widget> columnButtons = [];
+      for (var i = 0; i < widget.GRID_COLUMN; i++) {
+        columnButtons.addAll([
+          Radio<int>(
+              value: i,
+              groupValue: _answerColumn,
+              onChanged: _handleColumnAnswerValueChanged),
+          Text(i.toString()),
+        ]);
+      }
+
       content = Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -256,63 +278,11 @@ class _IconRecollectionState extends State<IconRecollection> {
           Icon(_questions[_questionNumber]),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Radio<int>(
-                  value: 0,
-                  groupValue: _answerRow,
-                  onChanged: _handleRowAnswerValueChanged),
-              Text('A'),
-              Radio<int>(
-                  value: 1,
-                  groupValue: _answerRow,
-                  onChanged: _handleRowAnswerValueChanged),
-              Text('B'),
-              Radio<int>(
-                  value: 2,
-                  groupValue: _answerRow,
-                  onChanged: _handleRowAnswerValueChanged),
-              Text('C'),
-              Radio<int>(
-                  value: 3,
-                  groupValue: _answerRow,
-                  onChanged: _handleRowAnswerValueChanged),
-              Text('D'),
-              Radio<int>(
-                  value: 4,
-                  groupValue: _answerRow,
-                  onChanged: _handleRowAnswerValueChanged),
-              Text('E'),
-            ],
+            children: rowButtons,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Radio<int>(
-                  value: 0,
-                  groupValue: _answerColumn,
-                  onChanged: _handleColumnAnswerValueChanged),
-              Text('0'),
-              Radio<int>(
-                  value: 1,
-                  groupValue: _answerColumn,
-                  onChanged: _handleColumnAnswerValueChanged),
-              Text('1'),
-              Radio<int>(
-                  value: 2,
-                  groupValue: _answerColumn,
-                  onChanged: _handleColumnAnswerValueChanged),
-              Text('2'),
-              Radio<int>(
-                  value: 3,
-                  groupValue: _answerColumn,
-                  onChanged: _handleColumnAnswerValueChanged),
-              Text('3'),
-              Radio<int>(
-                  value: 4,
-                  groupValue: _answerColumn,
-                  onChanged: _handleColumnAnswerValueChanged),
-              Text('4'),
-            ],
+            children: columnButtons,
           ),
           RaisedButton(
             onPressed: () => _answer(),
